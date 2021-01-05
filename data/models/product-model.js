@@ -1,10 +1,5 @@
 const mongoose = require('mongoose');
-const { productSchema } = require('../schemas/shemas.js');
-
-const mySchema = require('../schemas/shemas.js')
-
-// getting our product schema
-productSchema = mySchema.productSchema;
+const { productSchema } = require('../schemas/product-schema');
 
 // our instance methods
 
@@ -14,4 +9,41 @@ productSchema.methods.findFood = function(cb){
 }
 
 // static methods
-// find all foods on promo
+// find all products that belong to a particular store
+productSchema.statics.getStoreProducts = (store) => {
+  return mongoose.model('product').find({store})
+}
+
+
+// POST SAVE METHODS
+productSchema.post('save', async function(next) {
+  let store = await mongoose.model('store').findById({_id: this.store})
+  let storeProducts = store.products
+  const currentProduct = storeProducts.find( product => product._id == this._id)
+  console.log(currentProduct)
+  if(!currentProduct){
+    storeProducts = [...storeProducts, this._id]
+    store.products = storeProducts
+    store.save()
+    next
+  }
+  next
+})
+
+
+// Our product model
+const Product = mongoose.model('product', productSchema)
+
+
+module.exports = Product
+
+
+// {
+//   "name": "my awesome shoe",
+//   "price":30,
+//   "description": "Cillum labore labore esse magna. Aute deserunt nostrud non amet consectetur ea elit do. Eiusmod sit nostrud ullamco sit incididunt magna sit ullamco ullamco. Ad in aliqua anim esse id labore qui non ex non in ut. Magna exercitation nulla consectetur officia cillum consectetur nisi cillum anim cillum. Enim amet consequat deserunt nisi quis ad incididunt eiusmod velit anim consequat laboris.",
+//   "category": "apparel",
+//   "type": "shoe",
+//   "store": "5ff36b82df308a13d4d3b0f5",
+//   "promo": true
+// }

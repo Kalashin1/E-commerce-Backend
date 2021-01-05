@@ -5,6 +5,7 @@ const { logout } = require('../controllers/auth-controller/logout')
 const { validateUser } = require('../controllers/validate-user')
 const { addToCart, fetchCart, removeProductFromCart, clearCart } = require('../controllers/cart-controller')
 const { createStore, fetchStore } = require('../controllers/store-controller/store')
+const { createProduct, getStoreProducts } = require('../controllers/store-controller/product-controller')
 const router = Router()
 
 router.post('/login', loginUser)
@@ -16,6 +17,8 @@ router.get('/cart-remove', validateUser, removeProductFromCart)
 router.get('/cart/:id', validateUser, fetchCart)
 router.post('/create-store', validateUser, createStore)
 router.get('/store/:id', validateUser, fetchStore)
+router.post('/product', validateUser, createProduct)
+router.get('/products/:id', validateUser, getStoreProducts)
 module.exports = router
 
 // 5ff2f4c03a02780c0cb914ca -- user

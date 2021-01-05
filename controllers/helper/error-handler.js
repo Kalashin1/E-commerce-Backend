@@ -6,7 +6,7 @@ module.exports.errorHandler = function (err) {
   }
 
   if(err.message.includes('incorrect password')){
-    errors.email = 'incorrect password please try another password'
+    errors.password = 'incorrect password please try another password'
   }
 
   if(err.code === 11000){
@@ -22,6 +22,13 @@ module.exports.errorHandler = function (err) {
   }
 
   if(err.message.includes('store validation failed'))
+  {
+    Object.values(err.errors).forEach(({properties}) => {
+      errors[properties.path] = properties.message
+    } )
+  }
+
+  if(err.message.includes('product validation failed'))
   {
     Object.values(err.errors).forEach(({properties}) => {
       errors[properties.path] = properties.message

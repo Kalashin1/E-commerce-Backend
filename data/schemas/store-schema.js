@@ -1,4 +1,5 @@
 const { ObjectID } = require('mongodb')
+const {productSchema} = require('./product-schema')
 const { Schema } = require('mongoose')
 const {isEmail, isPassowrd} = require('../validators/validator')
 
