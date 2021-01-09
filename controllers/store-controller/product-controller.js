@@ -24,3 +24,11 @@ module.exports.getStoreProducts = async (req, res) => {
   console.log(products)
   res.json(products)
 }
+
+// REMOVE A PRODUCT FROM A STORE
+module.exports.removeProduct = async (req, res) => {
+  const {id} = req.body
+  const removedProduct = await Product.removeProduct(id)
+  res.json({removedProduct})
+}
+

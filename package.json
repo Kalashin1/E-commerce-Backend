@@ -6,7 +6,7 @@
   "scripts": {
     "test": "./node_modules/jasmine/bin/jasmine.js",
     "test-init": "./node_modules/jasmine/bin/jasmine.js init",
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",

@@ -43,12 +43,27 @@ userSchema.statics.login = async function (email, password){
 userSchema.statics.addToCart = async function (email, product) {
   const user = await mongoose.model('user').findOne({email})
   if(user){
-    user.cart.items = [...user.cart.items, product]
-    user.cart.length +=1
-    user.cart.total = parseInt(user.cart.total) + product.price
-    console.log(user.cart.items, user.cart.length, product)
-    user.save()
+    let products = user.cart.products
+
+    let foundProduct = products.find(item => item._id == product._id)
+    if(!foundProduct){
+      products.push(product)
+      user.cart.products = products
+      user.save()
+    }
+    if(foundProduct){
+      products = products.filter(item => item._id !== foundProduct._id)
+      foundProduct.amount+=1;
+      products = [...products, foundProduct];
+      user.cart = { products }
+      user.save()
+    }
+
+    console.log(user.cart.products);
+    // console.log(u)
     return user
+    // /cart-clear/5ff8711177d1821198744e38
+
   }
   else{
     throw Error('no user with that email')
@@ -59,10 +74,9 @@ userSchema.statics.addToCart = async function (email, product) {
 userSchema.statics.removeFromCart = async (_id, productId) => {
   const user = await mongoose.model('user').findById({_id})
   if(user){
-    let removedProduct = user.cart.items.find(product => product.id === productId)
-    user.cart.items = user.cart.items.filter(product => product.id !== productId)
-    user.cart.total -= removedProduct.price
-    user.cart.length -= 1
+    let products = user.cart.products
+    products = products.filter( product => product._id !== productId)
+    user.cart = { products }
     user.save()
     console.log(user.cart)
     return user.cart
@@ -76,11 +90,31 @@ userSchema.statics.removeFromCart = async (_id, productId) => {
 userSchema.statics.clearCart = async (_id) => {
   const user = await mongoose.model('user').findById({_id})
   if(user){
-    user.cart.items = []
-    user.cart.length = 0;
-    user.cart.total = 0
+    user.cart.products = []
     user.save()
     return user.cart
+  }
+  else{
+    throw Error('no user with that id')
+  }
+}
+
+userSchema.statics.modifyCart = async (userId, productId, modifier) => {
+  const user = await mongoose.model('user').findById({"_id": userId})
+  if(user){
+    let products = user.cart.products
+    let foundProduct = products.find(product => product._id == productId)
+    if(foundProduct.amount >= 1){
+      foundProduct.amount = foundProduct.amount + modifier
+      products = products.filter(product => product._id !== productId)
+      products = [...products, foundProduct]
+      user.cart = { products }
+      user.save()
+      return user.cart
+    }
+    else{
+      return user.cart
+    }
   }
   else{
     throw Error('no user with that id')

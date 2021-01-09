@@ -3,11 +3,11 @@ const User = require('../data/models/user-model.js');
 // add to a users cart
 module.exports.addToCart =  async function (req, res) {
   const {email, product} = req.body
-  // console.log(req.body)
   const user = await User.addToCart(email, product)
   res.json({id: user._id, email: user.email, name: user.name, cart : user.cart})
   // console.log(User)
 }
+
 // get a users cart
 module.exports.fetchCart = async (req, res) => {
   const id = req.params.id
@@ -32,5 +32,11 @@ module.exports.removeProductFromCart = async (req, res) => {
 module.exports.clearCart = async (req, res) => {
   const id = req.params.id
   const cart = await User.clearCart(id)
+  res.json(cart)
+}
+
+module.exports.modifyCart = async(req, res) => {
+  const {userId, productId, modifier} = req.body
+  const cart = await User.modifyCart(userId, productId, modifier)
   res.json(cart)
 }

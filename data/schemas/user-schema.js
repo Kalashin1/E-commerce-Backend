@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb')
 const { Schema } = require('mongoose')
+const { productSchema } = require('./product-schema')
 const {isEmail, isPassowrd} = require('../validators/validator')
 
 // USER SCHEMA
@@ -21,6 +22,10 @@ const userSchema = new Schema({
      required: [true, 'please enter a password'],
      minlength: [8, 'passowrd must be at least 8 characters long'],
      validate: [isPassowrd, 'password should contain an uppercase, lowercase letter and a number']
+  },
+  isAmdin: {
+    type: Boolean,
+    default: false
   },
   // address: {
   //   street: {
@@ -50,15 +55,8 @@ const userSchema = new Schema({
   //   }
   // },
   cart: {
-    length: {
-      type: Number,
-      default: 0
-    },
-    items: [],
-    total: {
-      type: Number,
-      default: 0
-    }
+   products: [],
+   
   },
   store: {
     type: ObjectId

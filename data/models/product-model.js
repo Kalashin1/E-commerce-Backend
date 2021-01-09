@@ -14,21 +14,11 @@ productSchema.statics.getStoreProducts = (store) => {
   return mongoose.model('product').find({store})
 }
 
+// delete a particular document
+productSchema.statics.removeProduct = (_id) => {
+  return mongoose.model('product').findByIdAndDelete({_id})
+}
 
-// POST SAVE METHODS
-productSchema.post('save', async function(next) {
-  let store = await mongoose.model('store').findById({_id: this.store})
-  let storeProducts = store.products
-  const currentProduct = storeProducts.find( product => product._id == this._id)
-  console.log(currentProduct)
-  if(!currentProduct){
-    storeProducts = [...storeProducts, this._id]
-    store.products = storeProducts
-    store.save()
-    next
-  }
-  next
-})
 
 
 // Our product model

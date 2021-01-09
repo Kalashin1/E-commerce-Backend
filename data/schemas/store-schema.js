@@ -10,9 +10,6 @@ const storeSchema = new Schema({
     required: [true, 'Please provide a name for your store'],
     minlength: [3, 'name of your store must be at least 3 characters long']
   },
-  products: {
-    type: []
-  },
   owner: {
     type: ObjectID,
     required: [true, 'please provide a user id for the store']

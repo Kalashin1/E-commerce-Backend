@@ -39,7 +39,19 @@ const productSchema = new Schema({
   promo: {
     type: Boolean,
     required: [true, 'please specify if this product is on promo or not']
+  },
+  amount: {
+    type: Number,
+    default: 1,
+    required: true
   }
+})
+
+productSchema.virtual('total').get(function(){
+  return this.price * this.amount
+}).set(function(v){
+  this.price = v[0]
+  this.amount = v[1]
 })
 
 module.exports.productSchema = productSchema
