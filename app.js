@@ -6,11 +6,15 @@ const cookieParser = require('cookie-parser')
 const { validateUser } = require('./controllers/validate-user')
 const { getUser } = require('./controllers/validate-user')
 
+const axios = require('axios')
+
 const app = express()
+
+
 
 // middleware
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: 'http://localhost:5500',
   credentials: true,
   exposedHeaders: ['set-cookie']
 }))
@@ -27,4 +31,32 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreat
 
 app.get('/user', getUser)
 app.get('/', validateUser, (req, res)=> res.json('welcome'))
+
+
+app.get('/transaction/:id', (req, res) => {
+  const { id } = req.params
+  const https = require('https')
+  const options = {
+    hostname: 'api.paystack.co',
+    port: 443,
+    path: '/transaction/verify/'+id,
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer sk_test_5f4cc01ff64a162124d4c386873a5dc995b1e088'
+    }
+  }
+  
+  https.request(options, resp => {
+    let data = ''
+    resp.on('data', (chunk) => {
+      data += chunk
+    });
+    resp.on('end', () => {
+    res.json(data)
+    })
+  }).on('error', error => {
+    res.json(error)
+  }).end()
+  
+})
 app.use(router)
