@@ -41,6 +41,7 @@ userSchema.statics.login = async function (email, password){
 
 // add to cart
 userSchema.statics.addToCart = async function (email, product) {
+  //find the user by their id
   const user = await mongoose.model('user').findOne({email})
   if(user){
     let products = user.cart.products

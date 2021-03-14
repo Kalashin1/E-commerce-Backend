@@ -34,6 +34,13 @@ module.exports.errorHandler = function (err) {
       errors[properties.path] = properties.message
     } )
   }
+
+  if(err.message.includes('order validation failed'))
+  {
+    Object.values(err.errors).forEach(({properties}) => {
+      errors[properties.path] = properties.message
+    })
+  }
   
   return errors
 }

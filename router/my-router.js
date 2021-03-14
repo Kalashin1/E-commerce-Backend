@@ -6,11 +6,18 @@ const { validateUser } = require('../controllers/validate-user')
 const { addToCart, fetchCart, removeProductFromCart, clearCart, modifyCart } = require('../controllers/cart-controller')
 const { createStore, fetchStore } = require('../controllers/store-controller/store')
 const { createProduct, getStoreProducts, removeProduct } = require('../controllers/store-controller/product-controller')
+
+const { makeOrder } = require( '../controllers/order-controller.js/orders-controller')
+
 const router = Router()
 
+// auth routes
 router.post('/login', loginUser)
 router.get('/logout', logout)
 router.post('/signup', signUserUp)
+
+
+// CART ROUTES
 // add to their cart
 router.post('/cart', validateUser, addToCart)
 // clear the contents of their cart
@@ -21,6 +28,9 @@ router.get('/cart-remove', validateUser, removeProductFromCart)
 router.get('/cart/:id', validateUser, fetchCart)
 // modify a product in a user's cart
 router.patch('/cart', validateUser, modifyCart)
+
+
+// STORE ROUTES
 // create a store
 router.post('/store', validateUser, createStore)
 // get a particular store of a user
@@ -31,6 +41,10 @@ router.post('/product', validateUser, createProduct)
 router.delete('/product', validateUser, removeProduct)
 // the products associated with a store based on the id of the store
 router.get('/products/:id', validateUser, getStoreProducts)
+
+
+// ORDERS ROUTES
+router.post('/order', validateUser, makeOrder)
 module.exports = router
 
 // 5ff2f4c03a02780c0cb914ca -- user

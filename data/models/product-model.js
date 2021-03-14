@@ -4,7 +4,7 @@ const { productSchema } = require('../schemas/product-schema');
 // our instance methods
 
 // get a particular document
-productSchema.methods.findFood = function(cb){
+productSchema.statics.findFood = function(cb){
   return mongoose.model('product').findById(id, cb)
 }
 
