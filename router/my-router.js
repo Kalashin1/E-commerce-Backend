@@ -1,13 +1,27 @@
 const { Router } = require('express')
+
+
 const { signUserUp } = require('../controllers/auth-controller/signup-controller.js')
 const { loginUser } = require('../controllers/auth-controller/login-controller.js')
 const { logout } = require('../controllers/auth-controller/logout')
 const { validateUser } = require('../controllers/validate-user')
-const { addToCart, fetchCart, removeProductFromCart, clearCart, modifyCart } = require('../controllers/cart-controller')
-const { createStore, fetchStore } = require('../controllers/store-controller/store')
-const { createProduct, getStoreProducts, removeProduct } = require('../controllers/store-controller/product-controller')
 
-const { makeOrder } = require( '../controllers/order-controller.js/orders-controller')
+
+const { addToCart, fetchCart,  clearCart } = require('../controllers/cart-controller')
+const { removeProductFromCart, modifyCart } = require('../controllers/cart-controller')
+
+
+const { createStore, fetchStore } = require('../controllers/store-controller/store')
+
+
+const { createProduct, getStoreProducts} = require('../controllers/store-controller/product-controller')
+const { removeProduct } = require('../controllers/store-controller/product-controller')
+
+
+const { makeOrder } = require( '../controllers/order-controller/orders-controller')
+
+
+const { createInvoice } = require('../controllers/invoice-controller/invoice-controller')
 
 const router = Router()
 
@@ -45,8 +59,9 @@ router.get('/products/:id', validateUser, getStoreProducts)
 
 // ORDERS ROUTES
 router.post('/order', validateUser, makeOrder)
+
+
+// INVOICE ROUTES
+router.post('/invoice', validateUser, createInvoice)
+
 module.exports = router
-
-// 5ff2f4c03a02780c0cb914ca -- user
-
-// 5ff361ffded5ed14545bf07b -- store
