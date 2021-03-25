@@ -20,7 +20,7 @@ orderSchema.statics.findOdersMadeOnProduct = async function(product) {
 }
 
 // fetch all pending orders 
-orderSchema.statics.fetcOrdersFromStatus = function (status) {
+orderSchema.statics.fetchOrderByStatus = function (status) {
   return this.find({status})
 }
 
@@ -33,6 +33,11 @@ orderSchema.statics.findOrderByDate = function (date) {
 orderSchema.statics.findOrderByAddress = function (locator) {
   // locator can be strret, zip, city, state, country
   return this.find(Object.values(address), locator)
+}
+
+// find order by customer info
+orderSchema.statics.findOrderByCustomer = function ({customer}) {
+  return this.find(customer)
 }
 
 const ordersModel = mongoose.model('order', orderSchema)

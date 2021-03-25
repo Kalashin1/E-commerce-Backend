@@ -18,7 +18,8 @@ const { createProduct, getStoreProducts} = require('../controllers/store-control
 const { removeProduct } = require('../controllers/store-controller/product-controller')
 
 
-const { makeOrder } = require( '../controllers/order-controller/orders-controller')
+const { makeOrder, fetchAllOrders } = require( '../controllers/order-controller/orders-controller')
+const { fetchOrderByStatus, fetchOrderByCustomer } = require( '../controllers/order-controller/orders-controller')
 
 
 const { createInvoice } = require('../controllers/invoice-controller/invoice-controller')
@@ -58,8 +59,14 @@ router.get('/products/:id', validateUser, getStoreProducts)
 
 
 // ORDERS ROUTES
+// create an order
 router.post('/order', validateUser, makeOrder)
-
+// retrieve all orders
+router.get('/orders', validateUser, fetchAllOrders)
+// retrieve orders based on status
+router.get('/orders/:status', validateUser, fetchOrderByStatus)
+// retrieve orders based on the customer
+router.get('/orders/by/customer', validateUser, fetchOrderByCustomer)
 
 // INVOICE ROUTES
 router.post('/invoice', validateUser, createInvoice)
