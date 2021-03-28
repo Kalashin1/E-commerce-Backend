@@ -9,7 +9,7 @@ orderSchema.statics.findCustomerOrders = function(customerId) {
 // fetch all the orders that relates to a particular product
 orderSchema.statics.findOdersMadeOnProduct = async function(product) {
   const orders = await mongoose.model('order').find()
-  let foundOrders;
+  let foundOrders = [];
   orders.forEach(order => {
     order.items.forEach(item => {
       item.id = product.id
@@ -26,13 +26,19 @@ orderSchema.statics.fetchOrderByStatus = function (status) {
 
 // find orders by date
 orderSchema.statics.findOrderByDate = function (date) {
-  return this.find(date)
+  const orders = this.find({ createdAt: date })
 }
 
 // find by address 
-orderSchema.statics.findOrderByAddress = function (locator) {
+orderSchema.statics.findOrderByLocation = async function (state) {
   // locator can be strret, zip, city, state, country
-  return this.find(Object.values(address), locator)
+  const orders = await mongoose.model('order').find()
+  let foundOrders = [];
+  orders.forEach(order => {
+    const FoundOrder = Object.values(order.deliveryAddress).find( location => location === state)
+    FoundOrder ? foundOrders.push(order) : foundOrders.push()
+  })
+  return foundOrders
 }
 
 // find order by customer info

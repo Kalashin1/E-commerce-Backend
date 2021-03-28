@@ -55,3 +55,44 @@ module.exports.fetchOrderByCustomer = async (req, res) => {
     res.json(errors)
   }
 }
+
+// find orders by products
+module.exports.fetchOrderByProduct = async (req, res) => {
+  const product = req.body
+  try {
+    const orders = await ordersModel.findOdersMadeOnProduct(product)
+    res.json(orders)
+  } catch (err) {
+    console.log(err)
+    let errors = helper.errorHandler(err)
+    res.json(errors)
+  }
+}
+
+// find orders by location
+module.exports.fetchOrdersByLocation = async (req, res) => {
+  const { location } = req.params
+  try {
+    const orders = await ordersModel.findOrderByLocation(location)
+    res.json(orders)
+  }
+  catch (err) {
+    console.log(err)
+    let errors = helper.errorHandler(err)
+    res.json(errors)
+  }
+}
+
+// find orders by date
+module.exports.fetchOrdersByDate = async (req, res) => {
+  const { date } = req.body
+  try{
+    const orders = await ordersModel.findOrderByDate(date)
+    res.json(orders)
+  }
+  catch (err) {
+    console.log(err)
+    let errors = helper.errorHandler(err)
+    res.json(errors)
+  }
+}

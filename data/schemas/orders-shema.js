@@ -63,11 +63,8 @@ const orderSchema = new Schema({
       const year = date.getFullYear()
       const month = date.getMonth()
       const day = date.getDate()
-      const hour = date.getHours()
-      const min = date.getMinutes()
-      const secs = date.getSeconds()
       
-      return `${day}/${month}/${year} ${hour}:${min}:${secs}`
+      return `${day}/${month}/${year}`
     })()
   }
 })
