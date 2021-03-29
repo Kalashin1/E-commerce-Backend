@@ -16,6 +16,19 @@ module.exports.makeOrder = async (req, res) => {
   }
 }
 
+// find an order based on the id of the order
+module.exports.fetchOrderById = async (req, res) => {
+  const { id } = req.params
+  try{
+    const orders = await ordersModel.findOrderById(id)
+    res.json(orders)
+  }
+  catch (err) {
+    console.log(err)
+    let errors = helper.errorHandler(err)
+    res.json(errors)
+  }
+}
 // retrieve all the orders
 module.exports.fetchAllOrders = async (req, res) => {
   try{
@@ -58,9 +71,10 @@ module.exports.fetchOrderByCustomer = async (req, res) => {
 
 // find orders by products
 module.exports.fetchOrderByProduct = async (req, res) => {
-  const product = req.body
+  const { property } = req.body
+  console.log(property)
   try {
-    const orders = await ordersModel.findOdersMadeOnProduct(product)
+    const orders = await ordersModel.findOdersMadeOnProduct(property)
     res.json(orders)
   } catch (err) {
     console.log(err)
@@ -86,6 +100,7 @@ module.exports.fetchOrdersByLocation = async (req, res) => {
 // find orders by date
 module.exports.fetchOrdersByDate = async (req, res) => {
   const { date } = req.body
+  console.log(date)
   try{
     const orders = await ordersModel.findOrderByDate(date)
     res.json(orders)

@@ -22,7 +22,7 @@ const { removeProduct } = require('../controllers/store-controller/product-contr
 const { fetchOrderByCustomer, fetchAllOrders } = require( '../controllers/order-controller/orders-controller')
 const { fetchOrderByStatus, makeOrder } = require( '../controllers/order-controller/orders-controller')
 const { fetchOrderByProduct, fetchOrdersByLocation } = require( '../controllers/order-controller/orders-controller')
-const { fetchOrdersByDate } = require( '../controllers/order-controller/orders-controller')
+const { fetchOrdersByDate, fetchOrderById } = require( '../controllers/order-controller/orders-controller')
 
 
 const { createInvoice } = require('../controllers/invoice-controller/invoice-controller')
@@ -76,6 +76,8 @@ router.get('/orders/for/product', validateUser, fetchOrderByProduct)
 router.get('/orders/location/:location', fetchOrdersByLocation)
 // retrieve an order based on the date
 router.get('/orders/on/date', fetchOrdersByDate)
+// retrieve an orders 
+router.get('/orders/id/:id', fetchOrderById)
 
 // INVOICE ROUTES
 router.post('/invoice', validateUser, createInvoice)
