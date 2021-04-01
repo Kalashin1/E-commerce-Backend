@@ -16,7 +16,7 @@ const { removeProductFromCart, modifyCart } = require('../controllers/cart-contr
 // store controllers
 const { createStore, fetchStore } = require('../controllers/store-controller/store')
 const { createProduct, getStoreProducts} = require('../controllers/store-controller/product-controller')
-const { removeProduct } = require('../controllers/store-controller/product-controller')
+const { removeProduct, findProductByParams } = require('../controllers/store-controller/product-controller')
 
 // orders controller
 const { fetchOrderByCustomer, fetchAllOrders } = require( '../controllers/order-controller/orders-controller')
@@ -58,7 +58,9 @@ router.post('/product', validateUser, createProduct)
 // delete a product
 router.delete('/product', validateUser, removeProduct)
 // the products associated with a store based on the id of the store
-router.get('/products/:id', validateUser, getStoreProducts)
+router.get('/products/id/:id', validateUser, getStoreProducts)
+// find products based on a param
+router.get('/products/param', findProductByParams)
 
 
 // ORDERS ROUTES

@@ -39,21 +39,15 @@
 // }
 //  payWithPayStack()
 
-const superHero = {
-  name: 'superHero'
-}
-// superHero.prototype = {}
-// superHero.prototype.getName = function(){
-//   console.log(this.name)
-// }
 
-const DCHero = {
-  name: 'superman',
-  world: 'krypto',
-  weakness: ['magic', 'cryptonite'],
-  powers: ['speed', 'strength', 'heat vision']
-}
+const set = new Set()
 
-const arr = Object.entries(DCHero)
-DCHero.age = 24
-console.log(arr)
+set.add({ name: 'superman', alias: 'clark kent'})
+set.add({ name: 'batman', alias: 'bruce wayne'})
+
+const arr = set.values()
+
+const iterable = set[Symbol.iterator]()
+
+console.log(arr.next())
+console.log(iterable.next())

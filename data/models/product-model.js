@@ -4,8 +4,15 @@ const { productSchema } = require('../schemas/product-schema');
 // our instance methods
 
 // get a particular document
-productSchema.statics.findFood = function(cb){
-  return mongoose.model('product').findById(id, cb)
+productSchema.statics.findProduct = async function (param){
+  const products = await mongoose.model('product').find()
+  let foundProducts = []
+  products.forEach(product => {
+   const foundProduct = Object.values(product._doc).find(field => field == param)
+   foundProduct ? foundProducts.push(product): foundProducts.push()
+  })
+  console.log(foundProducts)
+  return foundProducts
 }
 
 // static methods
@@ -19,6 +26,7 @@ productSchema.statics.removeProduct = (_id) => {
   return mongoose.model('product').findByIdAndDelete({_id})
 }
 
+// find a product based on a paremeter of the product
 
 
 // Our product model

@@ -60,10 +60,13 @@ const userSchema = new Schema({
   },
   store: {
     type: ObjectId
-  }
+  },
   // orders: {
   //   type: Array
-  // }
+  // },
+  // invoice: {
+  //    type: Array 
+ // }
 })
 
 

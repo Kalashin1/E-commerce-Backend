@@ -32,3 +32,14 @@ module.exports.removeProduct = async (req, res) => {
   res.json({removedProduct})
 }
 
+// FIND PRODUCTS BASED ON A SEARCH TERM
+module.exports.findProductByParams = async (req, res) => {
+  const { param } = req.body
+  console.log(param)
+  try {
+    const products = await Product.findProduct(param)
+    res.json(products)
+  } catch (err) {
+    console.log(err)
+  }
+}
